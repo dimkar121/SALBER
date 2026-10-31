@@ -1,1 +1,3 @@
+data/test_dblp_A.txt filter=lfs diff=lfs merge=lfs -text
+data/test_dblp_B.txt filter=lfs diff=lfs merge=lfs -text
 *.txt filter=lfs diff=lfs merge=lfs -text
