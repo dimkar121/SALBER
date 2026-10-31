@@ -30,14 +30,14 @@ pip install -r requirements.txt
 
 ## Repository Structure and Usage
 
-#Framework Classes
+### Framework Classes
 The framework provides two primary classes depending on the underlying similarity metric and retrieval space:
 
 * SALBER: Designed for dense semantic vector spaces, natively supporting Inner Product similarity calculations.
 
 * SALBER_BM25: Designed for sparse lexical retrieval, optimized for the BM25 scoring algorithm.
 
-# Execution
+### Execution
 The repository includes standalone Python executables tailored to standard Entity Resolution benchmark datasets. By default, the active learning loop is initialized with a seed set of 900 queries and a batch size of m = 200 queries per iteration.
 
 To execute the SALBER framework on a specific dataset, run the corresponding script from the terminal:
