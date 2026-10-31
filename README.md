@@ -1,4 +1,4 @@
-# SALBER: Sequential Active Learning Meta-Blocking for Entity Resolution
+# SALBER: A Variance-Bounded Active Learning Framework for Scalable Meta-Blocking
 
 ## Overview
 
