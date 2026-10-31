@@ -15,25 +15,6 @@ Entity Resolution (ER) relies on blocking and meta-blocking architectures to tam
 
 ## Prerequisites and Installation
 
-### 1. Git Large File Storage (LFS)
-
-**CRITICAL:** This repository contains large benchmark datasets hosted via Git LFS. You **must** install Git LFS on your system before cloning the repository. If you clone the repository without LFS, you will only download 1KB text pointers, and the data loaders will crash.
-
-```bash
-# Install Git LFS (Ubuntu/Debian)
-sudo apt update
-sudo apt install git-lfs
-
-# Initialize Git LFS
-git lfs install
-
-# Clone the repository
-git clone https://anonymous.4open.science/r/SALBER-7B5E/
-
-```
-
-### 2. Python Dependencies
-
 The framework requires Python 3.8+ and relies on core data science and semantic retrieval libraries.
 
 ```bash
@@ -49,6 +30,14 @@ pip install -r requirements.txt
 
 ## Repository Structure and Usage
 
+#Framework Classes
+The framework provides two primary classes depending on the underlying similarity metric and retrieval space:
+
+* SALBER: Designed for dense semantic vector spaces, natively supporting Inner Product similarity calculations.
+
+* SALBER_BM25: Designed for sparse lexical retrieval, optimized for the BM25 scoring algorithm.
+
+# Execution
 The repository includes standalone Python executables tailored to standard Entity Resolution benchmark datasets. By default, the active learning loop is initialized with a seed set of 900 queries and a batch size of m = 200 queries per iteration.
 
 To execute the SALBER framework on a specific dataset, run the corresponding script from the terminal:
