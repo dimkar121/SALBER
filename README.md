@@ -1,4 +1,4 @@
-# SALBER: A Variance-Bounded Active Learning Framework for Scalable Meta-Blocking
+# SALBER: A Variance-Aware Active Learning Framework for Scalable Meta-Blocking
 
 ## Overview
 
