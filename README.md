@@ -8,7 +8,7 @@ Entity Resolution (ER) relies on blocking and meta-blocking architectures to tam
 
 ## Key Features
 
-- **Decoupled Two-Phase Architecture:** Separates Phase 1 (Active Threshold Learning)—which optimizes a cost-sensitive threshold $\tau6\*$ via active margin sampling until stabilization—from Phase 2 (Sequential Recall Certification), which freezes $\tau^\*$ and certifies global recall over the residual unqueried pool.
+- **Decoupled Two-Phase Architecture:** Separates Phase 1 (Active Threshold Learning)—which optimizes a cost-sensitive threshold $\tau^\*$ via active margin sampling until stabilization—from Phase 2 (Sequential Recall Certification), which freezes $\tau^\*$ and certifies global recall over the residual unqueried pool.
 - **Time-Uniform Empirical Bernstein Certification:** Uses polynomial failure-budget allocation ($\delta_t$) to maintain simultaneous, anytime-valid upper bounds on global false negative error and lower bounds on global match prevalence, guaranteeing recall $\ge 1 - \epsilon_{\text{op}}$ with probability $\ge 1 - \delta$.
 - **Unbiased Defensive Importance Sampling:** Combines $\mathcal{O}(1)$ fixed-width score bucketing with a 50/50 defensive mixture of uniform-bucket and pool-proportional sampling, strictly bounding all IPW weights below $2$ without weight clipping or truncation bias.
 - **Dual Retrieval Space Support:** Scorer-agnostic by design and evaluated across both sparse lexical (BM25) and dense semantic vector spaces (`BAAI/bge-small-en-v1.5` with HNSW ANNS indexing).
