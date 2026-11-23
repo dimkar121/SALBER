@@ -2,16 +2,16 @@
 
 ## Overview
 
-Entity Resolution (ER) relies on blocking and meta-blocking architectures to tame its quadratic time complexity. While active learning reduces the manual labeling overhead of supervised meta-blocking, existing threshold-free and rule-based candidate pruning methods lack variance-aware structural safeguards. Consequently, they are vulnerable to premature termination or exhaustive labeling costs caused by the high variance of heavy-tailed candidate pair distributions. 
+Entity Resolution (ER) relies on blocking and meta-blocking architectures to tame its quadratic time complexity. While active learning reduces the manual labeling overhead of supervised meta-blocking, existing threshold-free and rule-based candidate pruning methods lack formal, statistical guarantees. Consequently, they remain vulnerable to premature termination or excessive labeling costs driven by the extreme class imbalance and heavy-tailed variance of ER candidate pools.
 
-**SALBER** is an active learning meta-blocking framework for ER built upon a variance-penalized architecture. By operationalizing Empirical Bernstein sequences, SALBER drives a variance-aware sampling strategy to establish a highly reliable stopping heuristic. By actively managing the extreme sample variance native to ER, this architecture robustly ensures that the active learning loop terminates only when operational recall targets are empirically satisfied. Comprehensive experimental evaluations across both sparse lexical and dense semantic retrieval spaces demonstrate that SALBER consistently meets these operational targets without risking premature termination. Compared to state-of-the-art candidate pruning frameworks, SALBER significantly minimizes total oracle query volume while optimizing the trade-off between labeling efficiency and empirical recall.
+**SALBER** (Sequential Active Learning for Blocking and Entity Resolution) is a scorer-agnostic, active learning meta-blocking framework that provides **formal, finite-sample probabilistic recall guarantees**. By decoupling active threshold learning from sequential recall certification and combining **Defensive Importance Sampling** with **Time-Uniform Empirical Bernstein confidence sequences**, SALBER guarantees that the learned similarity threshold achieves a user-specified operational recall target ($1 - \epsilon_{\text{op}}$) with high probability ($1 - \delta$). Comprehensive experimental evaluations across both sparse lexical and dense semantic retrieval spaces demonstrate that SALBER consistently certifies operational recall targets while significantly reducing total oracle query volume compared to state-of-the-art candidate pruning frameworks.
 
 ## Key Features
 
-* **Empirical Bernstein Safeguards:** Operationally calibrated stopping heuristics that protect against heavy-tailed variance and prevent premature termination.
-* **Operational Recall Targets:** Empowers users to strictly define minimum required recall thresholds.
-* **Robust Active Learning:** Incorporates Hájek normalization and 95th-percentile weight clipping to stabilize Extreme Inverse Probability Weighting.
-* **Dual Retrieval Space Support:** Evaluated across both sparse lexical (BM25) and dense semantic retrieval vector spaces (BAAI/bge-small-en-v1.5 using the HNSW ANNS index).
+- **Decoupled Two-Phase Architecture:** Separates *Phase 1 (Active Threshold Learning)*—which optimizes a cost-sensitive threshold $\tau^*$ via active margin sampling until stabilization—from *Phase 2 (Sequential Recall Certification)*, which freezes $\tau^*$ and certifies global recall over the residual unqueried pool.
+- **Time-Uniform Empirical Bernstein Certification:** Uses polynomial failure-budget allocation ($\delta_t$) to maintain simultaneous, anytime-valid upper bounds on global false negative error and lower bounds on global match prevalence, guaranteeing recall $\ge 1 - \epsilon_{\text{op}}$ with probability $\ge 1 - \delta$.
+- **Unbiased Defensive Importance Sampling:** Combines $\mathcal{O}(1)$ fixed-width score bucketing with a 50/50 defensive mixture of uniform-bucket and pool-proportional sampling, strictly bounding all IPW weights below $2$ without weight clipping or truncation bias.
+- **Dual Retrieval Space Support:** Scorer-agnostic by design and evaluated across both sparse lexical (BM25) and dense semantic vector spaces (`BAAI/bge-small-en-v1.5` with HNSW ANNS indexing).
 
 ## Prerequisites and Installation
 
@@ -51,4 +51,4 @@ To execute the SALBER framework on a specific dataset, run the corresponding scr
 * `python amazon-walmart.py` — Amazon-Walmart e-commerce dataset
 * `python dblp.py` — DBLP semi-synthetic citation dataset
 
-During execution, the scripts will output the progressive oracle query volume, the variance-bounded sampling metrics, and the final empirical recall confirming that the framework successfully satisfied the defined recall target.
+During execution, the scripts log the phase-by-phase oracle query volume, the defensive IPW certification metrics (global false negative upper bound $U_t^R$, dynamic error tolerance $\epsilon_t^R$), certified recall, estimated recall, and global (actual) recall confirming that the certified threshold $\tau^*$ satisfies the target operational recall ($1 - \epsilon_{\text{op}}$).
