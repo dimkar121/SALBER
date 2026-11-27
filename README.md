@@ -26,7 +26,14 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 ```
+### Large Files (Git LFS)
 
+This repository uses [Git LFS](https://git-lfs.com/) to track large dataset files. Ensure Git LFS is installed and initialized before cloning:
+
+```bash
+git lfs install
+git clone [https://github.com/dimkar121/SALBER.git](https://github.com/dimkar121/SALBER.git)
+```
 
 ## Repository Structure and Usage
 
