@@ -40,12 +40,11 @@ for i in range(n_iterations):
       m=m,
       m_v=m,
       ds=ds,
-      k_neighbors=3,
-      use_early_stopping=use_early
+      k_neighbors=3
     )
     np.random.seed(42 + i)
     # 3. Run the active learning framework
-    final_tau, candidates, metrics = model.fit(seed_size=800)
+    final_tau, candidates, metrics, trajectory_df = model.fit(seed_size=800)
     # 4. Store the results
     all_metrics.append(metrics)
 # Convert the list of dictionaries to a Pandas DataFrame
@@ -59,8 +58,7 @@ for column in df.columns:
         # Format: e.g., Recall: 0.9621 ± 0.0142
         #print(f"{column}: {mean_val:.4f} ± {sd_val:.4f}")
 
-suffix = "early_ON" if use_early else "early_OFF"
 safe_eps = str(epsilon_R).replace('.', '_')
-df.to_csv(f"{BASE_PATH}{ds}_results_{suffix}_{safe_eps}_{m}_cosine.csv", index=False)
+df.to_csv(f"{BASE_PATH}{ds}_results_{safe_eps}_{m}_cosine.csv", index=False)
 
 

@@ -46,8 +46,7 @@ for i in range(n_iterations):
       m=m,
       m_v=m,          # Draw more validation samples per step for faster penalty decay
       ds=ds,
-      k_neighbors=3,
-      use_early_stopping=use_early
+      k_neighbors=3
     )
     # 3. Run the active learning framework
     final_tau, candidates, metrics, trajectory_df = model.fit(seed_size=800)
@@ -65,7 +64,7 @@ for column in df.columns:
 
 suffix = "early_ON" if use_early else "early_OFF"
 safe_eps = str(epsilon_R).replace('.', '_')
-df.to_csv(f"{BASE_PATH}{ds}_results_{suffix}_{safe_eps}_{m}_cosine.csv", index=False)
+df.to_csv(f"{BASE_PATH}{ds}_results_{safe_eps}_{m}_cosine.csv", index=False)
 
 
 

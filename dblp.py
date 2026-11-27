@@ -3,15 +3,33 @@ import numpy as np
 import lib
 BASE_PATH = "./data/"
 
-COLS_TO_USE = ["id","author1","author2","title","year"]
-df_a = pd.read_csv(f"{BASE_PATH}test_dblp_A.txt",sep=",", encoding='utf-8', names=COLS_TO_USE, on_bad_lines='skip'  )
-df_b = pd.read_csv(f"{BASE_PATH}test_dblp_B.txt", sep=",", encoding='utf-8', names=COLS_TO_USE, on_bad_lines='skip' )
+COLS_TO_USE = ["id", "author1", "author2", "title", "year"]
+TEXT_DTYPES = {"id": "string", "author1": "string", "author2": "string", "title": "string"}
+
+df_a = pd.read_csv(
+    f"{BASE_PATH}test_dblp_A.txt",
+    sep=",",
+    encoding="utf-8",
+    names=COLS_TO_USE,
+    dtype=TEXT_DTYPES,
+    on_bad_lines="skip",
+)
+df_b = pd.read_csv(
+    f"{BASE_PATH}test_dblp_B.txt",
+    sep=",",
+    encoding="utf-8",
+    names=COLS_TO_USE,
+    dtype=TEXT_DTYPES,
+    on_bad_lines="skip",
+)
+
+
 if 'id' in df_a.columns:
     df_a = df_a.rename(columns={'id': 'id1'})
 if 'id' in df_b.columns:
     df_b = df_b.rename(columns={'id': 'id2'})
 
-truth_df = pd.read_csv(f"{BASE_PATH}truth_DBLP.csv", encoding="utf-8", sep=",", nrows=500_000)
+truth_df = pd.read_csv(f"{BASE_PATH}truth_DBLP.csv", encoding="utf-8", sep=",")
 id_col_a, id_col_b = truth_df.columns[0], truth_df.columns[1]
 
 
@@ -42,11 +60,10 @@ for i in range(n_iterations):
       m=m,
       m_v=m,
       ds=ds,
-      k_neighbors=3,
-      use_early_stopping=use_early
+      k_neighbors=3
     )
     # 3. Run the active learning framework
-    final_tau, candidates, metrics = model.fit(seed_size=1800)
+    final_tau, candidates, metrics,trajectory_df = model.fit(seed_size=1800)
     # 4. Store the results
     all_metrics.append(metrics)
 
@@ -64,9 +81,8 @@ for column in df.columns:
         #print(f"{column}: {mean_val:.4f} ± {sd_val:.4f}")
 
 # Optional: Save the raw multi-run data to CSV for your records
-suffix = "early_ON" if use_early else "early_OFF"
 safe_eps = str(epsilon_R).replace('.', '_')
-df.to_csv(f"{BASE_PATH}{ds}_results_{suffix}_{safe_eps}_{m}_cosine.csv", index=False)
+df.to_csv(f"{BASE_PATH}{ds}_results_{safe_eps}_{m}_cosine.csv", index=False)
 
 
 
